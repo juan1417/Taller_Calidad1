@@ -5,8 +5,8 @@ jest.mock('../src/utils/emailService', () => ({
   sendWelcomeEmail: jest.fn().mockResolvedValue(undefined),
 }));
 
-const userRepository = require('../src/userRepository');
-const { registerUser } = require('../src/userService');
+const userRepository = require('../src/repositories/userRepository');
+const { registerUser } = require('../src/services/userService');
 
 describe('registerUser — stub de userRepository', () => {
   beforeEach(() => {

@@ -3,7 +3,7 @@
  */
 jest.mock('../src/utils/emailService');
 
-jest.mock('../src/userRepository', () => ({
+jest.mock('../src/repositories/userRepository', () => ({
   save: jest.fn().mockResolvedValue({
     id: 1,
     email: 'test@test.com',
@@ -11,7 +11,7 @@ jest.mock('../src/userRepository', () => ({
 }));
 
 const emailService = require('../src/utils/emailService');
-const { registerUser } = require('../src/userService');
+const { registerUser } = require('../src/services/userService');
 
 describe('registerUser — mock de emailService', () => {
   beforeEach(() => {

@@ -5,14 +5,14 @@ jest.mock('../src/utils/emailService', () => ({
   sendWelcomeEmail: jest.fn().mockResolvedValue(undefined),
 }));
 
-jest.mock('../src/userRepository', () => ({
+jest.mock('../src/repositories/userRepository', () => ({
   save: jest.fn(),
 }));
 
 const request = require('supertest');
 const app = require('../src/app');
 const emailService = require('../src/utils/emailService');
-const userRepository = require('../src/userRepository');
+const userRepository = require('../src/repositories/userRepository');
 
 describe('POST /users (supertest)', () => {
   beforeEach(() => {
@@ -23,16 +23,13 @@ describe('POST /users (supertest)', () => {
     });
   });
 
-  it('responde 201, devuelve el usuario y dispara persistencia y correo', async () => {
+  it('responde 201, devuelve mensaje y dispara persistencia y correo', async () => {
     const response = await request(app)
       .post('/users')
       .send({ email: 'test@test.com' });
 
     expect(response.statusCode).toBe(201);
-    expect(response.body).toEqual({
-      id: 1,
-      email: 'test@test.com',
-    });
+    expect(response.body).toEqual({ message: 'Usuario creado' });
     expect(userRepository.save).toHaveBeenCalledWith({ email: 'test@test.com' });
     expect(emailService.sendWelcomeEmail).toHaveBeenCalledWith('test@test.com');
   });
